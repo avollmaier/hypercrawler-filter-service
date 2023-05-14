@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: filter-service
+  labels:
+    app: filter-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: filter-service
+  template:
+    metadata:
+      labels:
+        app: filter-service
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: /actuator/prometheus
+        prometheus.io/port: "9006"
+    spec:
+      containers:
+        - name: filter-service
+          image: filter-service
+          imagePullPolicy: IfNotPresent
+          lifecycle:
+            preStop:
+              exec:
+                command: [ "sh", "-c", "sleep 5" ]
+          ports:
+            - containerPort: 9006
+          env:
+            - name: BPL_JVM_THREAD_COUNT
+              value: "50"
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 9006
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 9006
+            initialDelaySeconds: 5
+            periodSeconds: 15
