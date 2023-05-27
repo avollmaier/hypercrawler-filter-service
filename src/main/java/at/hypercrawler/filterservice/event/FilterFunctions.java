@@ -8,6 +8,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.net.URL;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -22,19 +23,13 @@ public class FilterFunctions {
     }
 
     @Bean
-    public Function<Flux<AddressCrawledMessage>, Flux<AddressSuppliedMessage>> filter() {
+    public Function<Flux<AddressCrawledMessage>, Mono<Void>> filter() {
         return addressSupplyMessageFlux -> addressSupplyMessageFlux.mapNotNull(addressCrawledMessage -> {
             log.info("Filtering address {}", addressCrawledMessage.rawAddress());
+            filterService.filter(addressCrawledMessage.rawAddress(), addressCrawledMessage.crawlerId());
 
-            Optional<URL> filteredAddress = filterService.filter(addressCrawledMessage.rawAddress(), addressCrawledMessage.crawlerId());
-
-            if (filteredAddress.isEmpty()) {
-                log.info("Address {} is not valid", addressCrawledMessage.rawAddress());
-                return null;
-            }
-
-            return new AddressSuppliedMessage(addressCrawledMessage.crawlerId(), filteredAddress.get());
-        });
+            return Mono.empty();
+        }).then();
     }
 
 }

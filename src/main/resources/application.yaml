@@ -41,6 +41,11 @@ spring:
     password: admin
     connection-timeout: 5s
 
+hypercrawler:
+  filter-service:
+    client:
+      manager-service-uri: ${MANAGER_SERVICE_URI:http://localhost:9003}
+
 logging:
   pattern:
     level: "%5p [${spring.application.name},%X{trace_id},%X{span_id}]"
