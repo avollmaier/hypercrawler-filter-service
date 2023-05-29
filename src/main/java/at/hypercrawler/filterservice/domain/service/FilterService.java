@@ -41,7 +41,6 @@ public class FilterService {
             return;
         }
 
-
         try {
             URL url = new URL(address);
             publishAddressCrawledEvent(url, crawlerId);
