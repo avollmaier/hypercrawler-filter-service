@@ -1,9 +1,9 @@
-package at.hypercrawler.filterservice.filter.domain.service;
-
-import lombok.extern.slf4j.Slf4j;
+package at.hypercrawler.filterservice.filter.domain.util;
 
 import java.util.List;
 import java.util.regex.Pattern;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class RegexUtil {

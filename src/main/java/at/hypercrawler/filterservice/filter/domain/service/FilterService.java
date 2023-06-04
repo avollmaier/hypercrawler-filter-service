@@ -1,21 +1,23 @@
 package at.hypercrawler.filterservice.filter.domain.service;
 
-import at.hypercrawler.filterservice.filter.event.AddressCrawledMessage;
-import at.hypercrawler.filterservice.filter.event.AddressFilteredMessage;
-import at.hypercrawler.filterservice.manager.CrawlerFilterOptions;
-import at.hypercrawler.filterservice.manager.ManagerClient;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.cloud.stream.function.StreamBridge;
-import org.springframework.stereotype.Service;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
-
 import java.net.URL;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import org.springframework.cloud.stream.function.StreamBridge;
+import org.springframework.stereotype.Service;
+
+import at.hypercrawler.filterservice.filter.domain.util.RegexUtil;
+import at.hypercrawler.filterservice.filter.event.AddressCrawledMessage;
+import at.hypercrawler.filterservice.filter.event.AddressFilteredMessage;
+import at.hypercrawler.filterservice.manager.CrawlerFilterOptions;
+import at.hypercrawler.filterservice.manager.ManagerClient;
+import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Service
 @Slf4j
