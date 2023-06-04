@@ -1,4 +1,4 @@
-package at.hypercrawler.filterservice.domain.config;
+package at.hypercrawler.filterservice.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

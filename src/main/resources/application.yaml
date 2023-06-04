@@ -18,7 +18,7 @@ spring:
   cloud:
     config:
       enabled: true
-      uri: ${CONFIG_SERVICE_URL:http://localhost:9001}
+      uri: ${CONFIG_SERVICE_URI:http://localhost:9001}
       fail-fast: false
       retry:
         max-attempts: 20
@@ -32,8 +32,7 @@ spring:
         filter-in-0:
           destination: address-crawled
           group: ${spring.application.name}
-        filter-out-0:
-          destination: address-supplied
+
   rabbitmq:
     host: hypercrawler-rabbitmq
     port: 5672
