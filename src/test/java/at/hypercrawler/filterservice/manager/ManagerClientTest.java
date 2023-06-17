@@ -1,22 +1,17 @@
 package at.hypercrawler.filterservice.manager;
 
-import java.io.IOException;
-import java.util.UUID;
-
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.web.reactive.function.client.WebClient;
-
 import at.hypercrawler.filterservice.config.ClientProperties;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
+import org.junit.jupiter.api.*;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
+
+import java.io.IOException;
+import java.util.UUID;
 
 @TestMethodOrder(MethodOrderer.Random.class)
 class ManagerClientTest {
@@ -41,7 +36,7 @@ class ManagerClientTest {
     }
 
     @Test
-    void whenCrawlerExists_thenReturnStatus() {
+    void whenCrawlerExists_thenReturnConfig() {
         UUID crawlerId = UUID.randomUUID();
 
         MockResponse mockResponse = new MockResponse()
@@ -56,7 +51,9 @@ class ManagerClientTest {
                                 ],
                                 "filterOptions":{
                                    "siteExclusionPatterns":[
-                                      "https://www.google.com/*"
+                                      ".*google.*",
+                                      ".*bing.*",
+                                      ".*wikipedia.*"
                                    ],
                                    "queryParameterExclusionPatterns":[
                                       "utm_*"
@@ -102,9 +99,9 @@ class ManagerClientTest {
 
         mockWebServer.enqueue(mockResponse);
 
-        Mono<CrawlerConfig> crawlerConfigMono = managerClient.getCrawlerConfigById(crawlerId);
+        Mono<CrawlerConfig> configResponseMono = managerClient.getCrawlerConfigById(crawlerId);
 
-        StepVerifier.create(crawlerConfigMono)
+        StepVerifier.create(configResponseMono)
                 .expectNextMatches(s -> s.equals(CrawlerTestDummyProvider.crawlerConfig.get()))
                 .verifyComplete();
     }

@@ -8,9 +8,6 @@ import java.util.function.Supplier;
 
 public class CrawlerTestDummyProvider {
 
-    public static Supplier<List<String>> startUrls =
-            () -> Arrays.asList("https://www.google.com", "https://www.bing.com");
-
     public static Supplier<List<SupportedContentMediaType>> contentTypesToMatch =
             () -> Arrays.asList(SupportedContentMediaType.HTML, SupportedContentMediaType.PDF);
 
@@ -50,8 +47,8 @@ public class CrawlerTestDummyProvider {
 
     public static Supplier<CrawlerFilterOptions> filterOptions =
             () -> CrawlerFilterOptions.builder()
-              .queryParameterExclusionPatterns(Collections.singletonList("utm_*"))
-              .siteExclusionPatterns(Collections.singletonList("https://www.google.com/*"))
+                    .queryParameterExclusionPatterns(Collections.singletonList("utm_.*"))
+                    .siteExclusionPatterns(List.of(".*google.*", ".*bing.*", ".*wikipedia.*"))
                     .build();
 
     public static Supplier<CrawlerConfig> crawlerConfig =
