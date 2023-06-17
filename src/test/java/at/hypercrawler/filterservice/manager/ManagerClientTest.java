@@ -56,7 +56,7 @@ class ManagerClientTest {
                                       ".*wikipedia.*"
                                    ],
                                    "queryParameterExclusionPatterns":[
-                                      "utm_*"
+                                      "utm_.*"
                                    ]
                                 },
                                 "requestOptions":{
