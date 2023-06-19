@@ -32,6 +32,8 @@ spring:
         filter-in-0:
           destination: address-crawled
           group: ${spring.application.name}
+        filter-out-0:
+          destination: address-supplied
 
   rabbitmq:
     host: hypercrawler-rabbitmq
